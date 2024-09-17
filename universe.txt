@@ -1,0 +1,138 @@
+Celestial Bodies Database project from FreeCodeCamp. 
+
+------ Create database and connect to it ------
+
+psql --username=freecodecamp --dbname=postgres
+
+CREATE DATABASE universe;
+
+\c universe
+
+------ Create 5 tables as required ------
+
+CREATE TABLE galaxy (
+   galaxy_id SERIAL NOT NULL, 
+   name VARCHAR(30) UNIQUE NOT NULL,
+   galaxy_type TEXT, 
+   constellation TEXT, 
+   magnitude NUMERIC(3,1);
+);
+
+CREATE TABLE star (
+   star_id SERIAL NOT NULL, 
+   name VARCHAR(30) UNIQUE NOT NULL, 
+   star_type TEXT, 
+   constellation TEXT, 
+   lightyears_away INT, 
+   galaxy_id INT;
+);
+
+CREATE TABLE planet(
+   planet_id SERIAL NOT NULL, 
+   name VARCHAR(30) UNIQUE NOT NULL, 
+   has_water BOOLEAN, 
+   has_rings BOOLEAN, 
+   moon_amount INT, 
+   star_id INT;
+);
+
+CREATE TABLE moon(
+   moon_id SERIAL NOT NULL, 
+   name VARCHAR(30) UNIQUE NOT NULL, 
+   temp_in_k INT, 
+   magnitude NUMERIC(3,1), 
+   planet_id INT;
+);
+
+CREATE TABLE continents(
+   continents_id SERIAL NOT NULL, 
+   name VARCHAR(30) UNIQUE NOT NULL, 
+   amount_of_countries INT, 
+   percent_of_total_pop NUMERIC(4, 1);
+);
+
+------ Insert data into tables ------
+
+INSERT INTO galaxy (galaxy_id, name, galaxy_type, constellation, magnitude) VALUES 
+   (1, 'Milky Way', 'spiral', 'Sagittarius', -5.1), 
+   (2, 'Pinwheel', 'spiral', 'Ursa Major', 7.9), 
+   (3, 'NGC 5728', 'spiral', 'Libra', 13.4), 
+   (4, 'NGC 4886', 'elliptical', 'Coma Berenices', 14.9), 
+   (5, 'NGC 2865', 'elliptical', 'Hydra', 11.4), 
+   (6, 'NGC 5264', 'irregular', 'Hydra', 12.4);
+
+INSERT INTO star(star_id, name, star_type, constellation, lightyears_away, galaxy_id) VALUES 
+   (1, 'Sun', 'main sequence', NULL, 24000, 1), 
+   (2, 'Antares', 'red giant', 'Scorpius', 600, 1), 
+   (3, 'Betelgeuse', 'red giant', 'Orion', 700, 1), 
+   (4, 'Sirius B', 'white dwarf', 'Canis Major', 8, 1), 
+   (5, 'Vela Pulsar', 'neutron', 'Vela', 959, 1), 
+   (6, 'Proxima Centauri', 'red dwarf', 'Centaurus', 4, 1);
+
+INSERT INTO planet(planet_id, name, has_water, has_rings, moon_amount, star_id) VALUES 
+   (1, 'Mercury', 'TRUE', 'FALSE', 0, 2), 
+   (2, 'Venus', 'FALSE', 'FALSE', 0, 2), 
+   (3, 'Earth', 'TRUE', 'FALSE', 1, 2), 
+   (4, 'Mars', 'TRUE', 'FALSE', 2, 2), 
+   (5, 'Jupiter', 'TRUE', 'TRUE', 95, 2), 
+   (6, 'Saturn', 'TRUE', 'TRUE', 146, 2), 
+   (7, 'Uranus', 'TRUE', 'TRUE', 28, 2), 
+   (8, 'Neptune', 'TRUE', 'TRUE', 16, 2), 
+   (9, 'Ceres', 'TRUE', 'FALSE', 0, 2), 
+   (10, 'Pluto', 'TRUE', 'FALSE', 5, 2), 
+   (11, 'Haumea', NULL, 'FALSE', 2, 2), 
+   (12, 'Eris', NULL, 'FALSE', 1, 2);
+
+INSERT INTO moon(moon_id, name, temp_in_k, magnitude, planet_id) VALUES
+   (1, 'Moon', 206, -12.6, 3), 
+   (2, 'Phobos', 233, 11.8, 4), 
+   (3, 'Deimos', 233, 12.5, 4), 
+   (4, 'Europa', 130, 5.3, 5), 
+   (5, 'Leda', 1, 20.2, 5), 
+   (6, 'Callisto', 120, 5.7, 5), 
+   (7, 'Titan', 94, 8.4, 6), 
+   (8, 'Rhea', 90, 9.7, 6), 
+   (9, 'Dione', 87, 10.4, 6), 
+   (10, 'Ariel', 190, 14.8, 7), 
+   (11, 'Oberon', 200, 14.1, 7), 
+   (12, 'Ophelia', 65, 23.8, 7), 
+   (13, 'Triton', 38, 13.5, 8), 
+   (14, 'Naiad', 51, 23.9, 8), 
+   (15, 'Larissa', 51, 21.5, 8), 
+   (16, 'Charon', 53, 16.8, 10), 
+   (17, 'Nix', 40, 23.5, 10), 
+   (18, 'Styx', 147, 27.1, 10), 
+   (19, 'Namaka', 32, 21.9, 11), 
+   (20, 'Dysnomia', 30, 25.4, 12);
+
+INSERT INTO continents(continents_id, name, amount_of_countries, percent_of_total_pop) VALUES 
+   (1, 'Asia', 48, 58.9), 
+   (2, 'Africa', 54, 18.6), 
+   (3, 'Europe', 50, 9.1), 
+   (4, 'North America', 23, 4.7), 
+   (5, 'South America', 12, 8.1), 
+   (6, 'Oceania', 14, 0.6);
+
+------ Add primary keys ------
+
+ALTER TABLE galaxy ADD PRIMARY KEY(galaxy_id);
+
+ALTER TABLE star ADD PRIMARY KEY(star_id);
+
+ALTER TABLE planet ADD PRIMARY KEY(planet_id);
+
+ALTER TABLE moon ADD PRIMARY KEY(moon_id);
+
+ALTER TABLE continents ADD PRIMARY KEY(continents_id);
+
+------ Add foreign keys for references ------
+
+ALTER TABLE star ADD FOREIGN KEY (galaxy_id) REFERENCES galaxy (galaxy_id);
+
+ALTER TABLE planet ADD FOREIGN KEY (star_id) REFERENCES star (star_id);
+
+ALTER TABLE moon ADD FOREIGN KEY (planet_id) REFERENCES planet (planet_id);
+
+------ Save database to universe.sql to submit for completion ------
+
+pg_dump -cC --inserts -U freecodecamp universe > universe.sql
