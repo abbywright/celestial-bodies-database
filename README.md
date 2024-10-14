@@ -1,1 +1,3 @@
-A database of Celestial Bodies in PostgreSQL created by following a tutorial from FreeCodeCamp.
+## Celestial Bodies Database
+
+Build a database of Celestial Bodies using PostgreSQL.
