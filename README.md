@@ -2,7 +2,7 @@
 
 Build a database of celestial bodies using PostgreSQL.
 
-#### Subtasks
+### Subtasks
 
 - Create a database named `universe`
 - Connect to the database with `\c universe`. Then, add tables named `galaxy`, `star`, `planet`, and `moon`
