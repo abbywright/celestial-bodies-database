@@ -28,3 +28,5 @@ Build a database of celestial bodies using PostgreSQL.
 - All columns named `name` should be of type `VARCHAR`
 - Each primary key column should follow the naming convention `table_name_id`. For example, the `moon` table should have a primary key column named `moon_id`
 - Each foreign key column should have the same name as the column it is referencing
+
+#### [Tutorial from FreeCodeCamp](https://www.freecodecamp.org/learn/relational-database/build-a-celestial-bodies-database-project/build-a-celestial-bodies-database)
